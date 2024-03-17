@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.example";
+option java_outer_classname = "TicketGrpcProto";
+import "google/protobuf/wrappers.proto";
+import "google/protobuf/empty.proto";
+
+
+message TicketRequest {
+  int64 id = 1;
+  string eventID = 2;
+  string type =3;
+  string price = 4;
+}
+
+message TicketResponse {
+  int64 id= 1;
+  string eventID = 2;
+  string type =3;
+  string price = 4;
+  string boughtAt = 5;
+}
+
+message TicketList {
+  repeated TicketResponse tickets = 1;
+}
+
+service TicketService {
+  rpc create (TicketRequest) returns (TicketResponse);
+  rpc get (TicketRequest) returns (TicketResponse);
+  rpc remove (TicketRequest) returns (TicketResponse);
+  rpc update (TicketRequest) returns (TicketResponse);
+  rpc list (google.protobuf.Empty) returns (TicketList);
+}
