@@ -1,19 +1,18 @@
 version: "3.9"
 services:
-  tickets_service:
+  grpc-demo-service:
     build:
       context: .
       dockerfile: src/main/docker/Dockerfile.jvm
-    container_name: tickets_service
     ports:
-      - '8090:8080'
-      - '8082:9000'
+      - '8080:8080'
     links:
       - db-grpc-demo
     environment:
       - QUARKUS_DATASOURCE_REACTIVE_URL=vertx-reactive:postgresql://db-grpc-demo:5432/grpc-demo
+      - DB
     networks:
-      -  backend-network
+      - quarkus
 
   db-grpc-demo:
     image: postgres
@@ -26,8 +25,8 @@ services:
     ports:
       - '5432:5432'
     networks:
-      -  backend-network
+      - quarkus
 
 networks:
-  backend-network:
-    external: true
+  quarkus:
+    driver: bridge
