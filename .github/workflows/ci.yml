@@ -33,12 +33,13 @@ jobs:
       - name: List Current Directory
         run: |
           pwd
+          cd src/main/docker
           ls -al
       
       - name: Login to DockerHub and push image
         run: |
           docker login -u $DOCKER_USERNAME --password-stdin <<< $DOCKER_PASSWORD
-          docker build -t $IMAGE_NAME ./src/main/docker/Dockerfile.jvm
+          docker build -t $IMAGE_NAME ./src/main/docker/
           docker push $IMAGE_NAME
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
