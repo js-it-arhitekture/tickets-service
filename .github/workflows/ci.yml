@@ -1,6 +1,17 @@
+name: Run Tests
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
+    branches:
+      - '*'
+
 jobs:
   test:
-    name: Run Maven Tests and Build Docker Image
+    name: Run Maven Tests
     runs-on: ubuntu-latest
 
     steps:
@@ -24,13 +35,10 @@ jobs:
           pwd
           ls -al
       
-      - name: Change Directory to Docker Context
-        run: cd src/main/docker
-
       - name: Login to DockerHub and push image
         run: |
           docker login -u $DOCKER_USERNAME --password-stdin <<< $DOCKER_PASSWORD
-          docker build -t $IMAGE_NAME Dockerfile.jvm
+          docker build -t $IMAGE_NAME src/main/docker/Dockerfile.jvm
           docker push $IMAGE_NAME
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
