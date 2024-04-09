@@ -33,8 +33,8 @@ jobs:
       - name: Login to DockerHub and push image
         run: |
           docker login -u $DOCKER_USERNAME --password-stdin <<< $DOCKER_PASSWORD
-          docker build -t tickets-service src/main/docker/Dockerfile.jvm
-          docker push tickets-service
+          docker build -t $IMAGE_NAME src/main/docker/Dockerfile.jvm
+          docker push $IMAGE_NAME
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
